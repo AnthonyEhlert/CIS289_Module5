@@ -10,7 +10,7 @@ import pandas as pd
 
 pd.options.display.width = 0
 
-# START OF "Import_And_Prep_Dataset_Ehlert.py" CODE #
+####### START OF "Import_And_Prep_Dataset_Ehlert.py" CODE #######
 
 # Load the dataset into a Pandas dataframe
 base_steam_df = pd.read_csv("steam.csv")
@@ -30,8 +30,8 @@ steam_group_by_pub_df = steam_group_by_pub_df.sum()
 
 # From this grouped frame create a list of rows that need to be deleted based on having less than 50 positive ratings
 pub_to_delete_df = steam_group_by_pub_df[steam_group_by_pub_df["positive_ratings"] < 50].index
-#print(f"Shape of \"pub_to_delete_df\": {pub_to_delete_df.shape}")
-#print()
+# print(f"Shape of \"pub_to_delete_df\": {pub_to_delete_df.shape}")
+# print()
 pub_to_delete_list = list(pub_to_delete_df)
 
 # Using list of publishers to delete & your original df, create new df that has publishers with at least 50 ratings
@@ -39,46 +39,38 @@ pub_50_pos_df = base_steam_df[~base_steam_df["publisher"].isin(pub_to_delete_lis
 
 # Sort your new dataframe descending on positive ratings.  Your top name should be "Counter-Strike: Global Offensive"
 sorted_pub_50_pos_df = pub_50_pos_df.sort_values(by=["positive_ratings"], ascending=False).copy()
-#print(f"Head of \"sorted_pub_50_pos_df\":\n{sorted_pub_50_pos_df.head()}")
-#print()
-#print(f"Shape of \"sorted_pub_50_pos_df\": {pub_50_pos_df.shape}")
-#print()
+# print(f"Head of \"sorted_pub_50_pos_df\":\n{sorted_pub_50_pos_df.head()}")
+# print()
+# print(f"Shape of \"sorted_pub_50_pos_df\": {pub_50_pos_df.shape}")
+# print()
 
 # Do a describe on the frame to see some quick stats on it
-#print(f"Describe of \"pub_50_pos_df\":\n{pub_50_pos_df.describe()}")
-#print()
+# print(f"Describe of \"pub_50_pos_df\":\n{pub_50_pos_df.describe()}")
+# print()
 
 # Remove the appid column using iloc because we don't need it
 no_appid_pub_50_pos_df = sorted_pub_50_pos_df.drop(sorted_pub_50_pos_df.iloc[:, 0:1], axis=1)
-#print(f"Shape of \"no_appid_pub_50_pos_df\": {no_appid_pub_50_pos_df.shape}")
+# print(f"Shape of \"no_appid_pub_50_pos_df\": {no_appid_pub_50_pos_df.shape}")
 no_appid_pub_50_pos_df.to_csv("no_appid_pub_50_pos_df.csv")
-#print()
+# print()
 
 # Remove any rows for games that have less than 20000 owners
 under_20k_owners_to_delete = no_appid_pub_50_pos_df[no_appid_pub_50_pos_df["owners"] == "0-20000"].index
 over_20k_owners_df = no_appid_pub_50_pos_df.drop(under_20k_owners_to_delete)
-#print(f"Shape of \"over_20k_owners_steam_df\": {over_20k_owners_df.shape}")
+# print(f"Shape of \"over_20k_owners_steam_df\": {over_20k_owners_df.shape}")
 
-# END OF "Import_And_Prep_Dataset_Ehlert.py" CODE #
+####### END OF "Import_And_Prep_Dataset_Ehlert.py" CODE #######
 
 #### Using the result from your topic 1 assignment, let's do some data analysis
 #### First, let's determine if games with more owners get higher ratings:
 # Create a frame from your original dataset that includes owners, positive ratings, and negative ratings
 owners_and_ratings_df = over_20k_owners_df[["owners", "positive_ratings", "negative_ratings"]].copy()
-print(f"Head of \"owners_and_ratings_df\":\n{owners_and_ratings_df.head()}")
-print()
-print(f"Shape of \"owners_and_ratings_df\": {owners_and_ratings_df.shape}")
-print()
 
 # Group the frame by owners
 group_by_owners_df = owners_and_ratings_df.groupby("owners")
-#print(group_by_owners_df.head())
-#print(f"Shape of \"group_by_owners_df\": {group_by_owners_df.shape}")
 
 # Sum the grouped frame
 sum_group_by_owners_df = group_by_owners_df.sum()
-#print(f"Head of \"summed_group_by_owners_df\":\n{summed_group_by_owners_df.head()}")
-#print(f"Shape of \"summed_group_by_owners_df\": {summed_group_by_owners_df.shape}")
 
 # print the grouped, summed frame
 print(sum_group_by_owners_df.to_string())
@@ -87,11 +79,11 @@ print()
 #### It looks like games w/ more owners might have higher pos. ratings but hard to tell with raw numbers.  Let's add %'s
 # add a column to your grouped, summed frame showing the % of positive reviews (pos reviews/(neg reviews+pos reviews))
 sum_group_by_owners_df["percent_positive"] = sum_group_by_owners_df["positive_ratings"] / (
-            sum_group_by_owners_df["positive_ratings"] + sum_group_by_owners_df["negative_ratings"])
+        sum_group_by_owners_df["positive_ratings"] + sum_group_by_owners_df["negative_ratings"])
 
 # add a column that does the same for % of negative reviews
 sum_group_by_owners_df["percent_negative"] = sum_group_by_owners_df["negative_ratings"] / (
-            sum_group_by_owners_df["positive_ratings"] + sum_group_by_owners_df["negative_ratings"])
+        sum_group_by_owners_df["positive_ratings"] + sum_group_by_owners_df["negative_ratings"])
 
 # print the output
 print(sum_group_by_owners_df.to_string())
@@ -113,13 +105,12 @@ ratings_group_by_pub_df = publishers_and_ratings_df.groupby("publisher")
 
 # Sum the grouped frame
 sum_ratings_group_by_pub_df = ratings_group_by_pub_df.sum()
-# print(sum_ratings_group_by_pub_df.to_string())
 
 # add in the % positive and % negative reviews
 sum_ratings_group_by_pub_df["percent_positive"] = sum_ratings_group_by_pub_df["positive_ratings"] / (
-            sum_ratings_group_by_pub_df["positive_ratings"] + sum_ratings_group_by_pub_df["negative_ratings"])
+        sum_ratings_group_by_pub_df["positive_ratings"] + sum_ratings_group_by_pub_df["negative_ratings"])
 sum_ratings_group_by_pub_df["percent_negative"] = sum_ratings_group_by_pub_df["negative_ratings"] / (
-            sum_ratings_group_by_pub_df["positive_ratings"] + sum_ratings_group_by_pub_df["negative_ratings"])
+        sum_ratings_group_by_pub_df["positive_ratings"] + sum_ratings_group_by_pub_df["negative_ratings"])
 
 # Sort the frame descending by % positive reviews
 sum_ratings_group_by_pub_df = sum_ratings_group_by_pub_df.sort_values(by=["percent_positive"], ascending=False)
@@ -132,8 +123,6 @@ print()
 #### but we removed all publishers that didn't have at least 50 ratings.  EXPLAIN WHY THIS IS HERE IN YOUR SUBMISSION
 # Let's drop any rows that don't have at least 1000 positive ratings
 at_least_1k_pos_rating_df = sum_ratings_group_by_pub_df[sum_ratings_group_by_pub_df["positive_ratings"] >= 1000]
-print(at_least_1k_pos_rating_df.head())
-print()
 
 #### Now Wube Software is the winner...but they only have 1 game (and everyone loves it).
 #### I want to see how publishers do overall so let's drop any publisher that doesn't have at least 5 games listed
