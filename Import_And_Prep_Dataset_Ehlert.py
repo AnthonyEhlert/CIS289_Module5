@@ -7,8 +7,8 @@ Program Description: This program loads a dataset to a Pandas dataframe and then
 assignment/program
 """
 import pandas as pd
-pd.options.display.width = 0
 
+pd.options.display.width = 0
 
 # Load the dataset into a Pandas dataframe
 base_steam_df = pd.read_csv("steam.csv")
@@ -27,7 +27,7 @@ print(f"Shape of \"steam_group_by_pub_df\": {steam_group_by_pub_df.shape}")
 print()
 
 #### From this grouped frame create a list of rows that need to be deleted based on having less than 50 positive ratings
-pub_to_delete_df = steam_group_by_pub_df[steam_group_by_pub_df["positive_ratings"]<50].index
+pub_to_delete_df = steam_group_by_pub_df[steam_group_by_pub_df["positive_ratings"] < 50].index
 print(f"Shape of \"pub_to_delete_df\": {pub_to_delete_df.shape}")
 print()
 pub_to_delete_list = list(pub_to_delete_df)
@@ -47,13 +47,12 @@ print(f"Describe of \"pub_50_pos_df\":\n{pub_50_pos_df.describe()}")
 print()
 
 # Remove the appid column using iloc because we don't need it
-no_appid_pub_50_pos_df= sorted_pub_50_pos_df.drop(sorted_pub_50_pos_df.iloc[:, 0:1], axis=1)
+no_appid_pub_50_pos_df = sorted_pub_50_pos_df.drop(sorted_pub_50_pos_df.iloc[:, 0:1], axis=1)
 print(f"Shape of \"no_appid_pub_50_pos_df\": {no_appid_pub_50_pos_df.shape}")
 no_appid_pub_50_pos_df.to_csv("no_appid_pub_50_pos_df.csv")
 print()
 
 # Remove any rows for games that have less than 20000 owners
-under_20k_owners_to_delete= no_appid_pub_50_pos_df[no_appid_pub_50_pos_df["owners"] == "0-20000"].index
+under_20k_owners_to_delete = no_appid_pub_50_pos_df[no_appid_pub_50_pos_df["owners"] == "0-20000"].index
 over_20k_owners_df = no_appid_pub_50_pos_df.drop(under_20k_owners_to_delete)
 print(f"Shape of \"over_20k_owners_steam_df\": {over_20k_owners_df.shape}")
-#over_20k_owners_df.to_csv("over_20k_owners_df.csv")
