@@ -49,7 +49,6 @@ print()
 # Remove the appid column using iloc because we don't need it
 no_appid_pub_50_pos_df = sorted_pub_50_pos_df.drop(sorted_pub_50_pos_df.iloc[:, 0:1], axis=1)
 print(f"Shape of \"no_appid_pub_50_pos_df\": {no_appid_pub_50_pos_df.shape}")
-no_appid_pub_50_pos_df.to_csv("no_appid_pub_50_pos_df.csv")
 print()
 
 # Remove any rows for games that have less than 20000 owners
