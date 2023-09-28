@@ -73,7 +73,8 @@ group_by_owners_df = owners_and_ratings_df.groupby("owners")
 sum_group_by_owners_df = group_by_owners_df.sum()
 
 # print the grouped, summed frame
-print(sum_group_by_owners_df.to_string())
+print(sum_group_by_owners_df)
+#print(sum_group_by_owners_df.to_string())
 print()
 
 #### It looks like games w/ more owners might have higher pos. ratings but hard to tell with raw numbers.  Let's add %'s
@@ -86,14 +87,15 @@ sum_group_by_owners_df["percent_negative"] = sum_group_by_owners_df["negative_ra
         sum_group_by_owners_df["positive_ratings"] + sum_group_by_owners_df["negative_ratings"])
 
 # print the output
-print(sum_group_by_owners_df.to_string())
+print(sum_group_by_owners_df)
+#print(sum_group_by_owners_df.to_string())
 print()
 
 #### It's hard to tell what's highest rated still
 # Sort the frame descending by % positive ratings
 sum_group_by_owners_df = sum_group_by_owners_df.sort_values(by="percent_positive", ascending=False)
-print(sum_group_by_owners_df.to_string())
-print()
+#print(sum_group_by_owners_df.to_string())
+# print()
 
 #### It isn't perfect but it does appear that games with more owners have higher ratings (does that make sense?)
 #### Now let's find out which publishers have the highest ratings
@@ -116,7 +118,8 @@ sum_ratings_group_by_pub_df["percent_negative"] = sum_ratings_group_by_pub_df["n
 sum_ratings_group_by_pub_df = sum_ratings_group_by_pub_df.sort_values(by=["percent_positive"], ascending=False)
 
 # print the grouped, summed frame
-print(sum_ratings_group_by_pub_df.to_string())
+print(sum_ratings_group_by_pub_df)
+#print(sum_ratings_group_by_pub_df.to_string())
 print()
 
 #### That's strange...It appears that Dexion Games got the highest overall rating but only has 1 rating...
@@ -146,4 +149,5 @@ less_than_5_games_pubs_list = list(less_than_5_games_pubs)
 final_df = at_least_1k_pos_rating_df[~at_least_1k_pos_rating_df.index.isin(less_than_5_games_pubs_list)]
 
 # print your final dataframe with Nicalis Inc. as the highest rated publisher
-print(final_df.to_string())
+print(final_df)
+#print(final_df.to_string())
